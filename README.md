@@ -99,8 +99,6 @@ git clone URL_DEL_REPOSITORIO
 cd PFO2-Gestion-Tareas
 ```
 
-Reemplazar `URL_DEL_REPOSITORIO` por la dirección real del repositorio.
-
 ### 2. Crear el entorno virtual
 
 ```powershell
