@@ -1,23 +1,25 @@
-# Sistema de Gestión de Tareas con API REST y Base de Datos - 
+# Sistema de Gestión de Tareas con API REST y Base de Datos
 
-**Programación sobre Redes — PFO 2 - NATUCCI PAULA "COMISION D"**
+**Programación sobre Redes – PFO 2**  
+**Alumna:** Paula Valeria Natucci  
+**Comisión:** D
 
-## Descripción
+## Descripción del proyecto
 
-Este proyecto consiste en una aplicación cliente-servidor desarrollada en Python que permite registrar usuarios, iniciar sesión y acceder a una página de bienvenida protegida mediante autenticación.
+Para este trabajo práctico desarrollé una aplicación cliente-servidor en Python que permite registrar usuarios, iniciar sesión y acceder a una página de bienvenida.
 
-El servidor utiliza Flask para implementar una API REST, mientras que el cliente de consola utiliza la biblioteca Requests para realizar solicitudes HTTP.
+El servidor está desarrollado con Flask y utiliza una base de datos SQLite para guardar los usuarios registrados. Las contraseñas se almacenan mediante hash utilizando Werkzeug, para evitar guardarlas directamente.
 
-Los usuarios se almacenan en una base de datos SQLite y las contraseñas se protegen mediante funciones de hash.
+También desarrollé un cliente de consola con la biblioteca Requests, que permite interactuar con el servidor a través de un menú.
 
 ## Tecnologías utilizadas
 
-- Python
-- Flask
-- SQLite
-- Requests
-- Werkzeug
-- Git y GitHub
+- **Python:** lenguaje utilizado para desarrollar el servidor y el cliente.
+- **Flask:** framework utilizado para crear la API REST.
+- **SQLite:** base de datos donde se almacenan los usuarios.
+- **Werkzeug:** permite generar y verificar los hashes de las contraseñas.
+- **Requests:** biblioteca que utiliza el cliente para realizar solicitudes HTTP.
+- **Git y GitHub:** control de versiones y publicación del proyecto.
 
 ## Estructura del proyecto
 
@@ -27,36 +29,23 @@ PFO2-Gestion-Tareas/
 ├── cliente.py
 ├── requirements.txt
 ├── .gitignore
-└── README.md
+├── README.md
+└── capturas/
 ```
 
-La base de datos `usuarios.db` se genera automáticamente al iniciar el servidor.
+El archivo `usuarios.db` se crea automáticamente cuando se inicia el servidor por primera vez.
 
-## Funcionalidades
+## Funcionamiento
 
-- Registro de nuevos usuarios.
-- Validación de credenciales.
-- Almacenamiento de contraseñas mediante hash.
-- Autenticación basada en sesiones.
-- Acceso protegido a una página HTML.
-- Cliente de consola con menú interactivo.
-- Manejo de respuestas HTTP y errores de conexión.
-- Cierre local de sesión.
-
-## Endpoints de la API
-
-| Método | Endpoint | Descripción |
-|---|---|---|
-| GET | `/` | Comprueba que el servidor funciona. |
-| POST | `/registro` | Registra un nuevo usuario. |
-| POST | `/login` | Verifica las credenciales e inicia una sesión. |
-| GET | `/tareas` | Devuelve una página HTML para usuarios autenticados. |
+La aplicación cuenta con tres operaciones principales: registro de usuarios, inicio de sesión y acceso a la página de tareas.
 
 ### Registro de usuarios
 
 **POST `/registro`**
 
-Ejemplo de JSON:
+Permite registrar un usuario nuevo. El servidor recibe los datos en formato JSON, comprueba que sean válidos y guarda el usuario en SQLite junto con el hash de su contraseña.
+
+Ejemplo:
 
 ```json
 {
@@ -65,51 +54,50 @@ Ejemplo de JSON:
 }
 ```
 
-Respuestas posibles:
+Posibles respuestas:
 
-- `201 Created`: usuario registrado correctamente.
-- `400 Bad Request`: datos inválidos.
-- `409 Conflict`: el usuario ya existe.
+- **201:** usuario registrado correctamente.
+- **400:** faltan datos o el formato es incorrecto.
+- **409:** el usuario ya existe.
 
 ### Inicio de sesión
 
 **POST `/login`**
 
-Recibe las credenciales del usuario y verifica la contraseña contra el hash almacenado en SQLite.
+Recibe el usuario y la contraseña, busca el usuario en la base de datos y verifica la contraseña con Werkzeug.
 
-Respuestas posibles:
+Si las credenciales son correctas, Flask crea una sesión para permitir el acceso a la página protegida.
 
-- `200 OK`: inicio de sesión exitoso.
-- `400 Bad Request`: datos inválidos.
-- `401 Unauthorized`: credenciales incorrectas.
+Posibles respuestas:
+
+- **200:** inicio de sesión exitoso.
+- **400:** datos inválidos.
+- **401:** credenciales incorrectas.
 
 ### Acceso a tareas
 
 **GET `/tareas`**
 
-- `200 OK`: devuelve el HTML de bienvenida si existe una sesión autenticada.
-- `401 Unauthorized`: rechaza el acceso cuando no existe una sesión válida.
+Muestra una página HTML de bienvenida, pero solamente si el usuario inició sesión correctamente.
+
+- **200:** acceso autorizado.
+- **401:** acceso denegado.
+
+También se incluye la ruta **GET `/`**, que permite comprobar que el servidor está funcionando.
 
 ## Instalación y ejecución
 
 ### 1. Clonar el repositorio
 
 ```powershell
-git clone URL_DEL_REPOSITORIO
+git clone https://github.com/TheGipsyGirl/PFO2-Gestion-Tareas.git
 cd PFO2-Gestion-Tareas
 ```
 
-Reemplazar `URL_DEL_REPOSITORIO` por la dirección real del repositorio.
-
-### 2. Crear el entorno virtual
+### 2. Crear y activar el entorno virtual
 
 ```powershell
 python -m venv .venv
-```
-
-Activarlo en PowerShell:
-
-```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
@@ -119,84 +107,87 @@ Activarlo en PowerShell:
 python -m pip install -r requirements.txt
 ```
 
-### 4. Configurar la clave secreta de Flask
+### 4. Configurar la clave secreta
 
-En la terminal donde se ejecutará el servidor:
+Antes de ejecutar el servidor, configurar la variable de entorno que Flask utiliza para las sesiones:
 
 ```powershell
 $env:FLASK_SECRET_KEY = python -c "import secrets; print(secrets.token_hex(32))"
 ```
 
-Esta clave se utiliza para firmar las cookies de sesión y no debe publicarse en GitHub.
-
-### 5. Iniciar el servidor
+### 5. Ejecutar el servidor
 
 ```powershell
 python servidor.py
 ```
 
-El servidor estará disponible en:
-
-`http://127.0.0.1:5000`
+El servidor funciona localmente en `http://127.0.0.1:5000`.
 
 ### 6. Ejecutar el cliente
 
-Abrir otra terminal, activar el entorno virtual y ejecutar:
+En otra terminal, con el entorno virtual activado:
 
 ```powershell
 python cliente.py
 ```
 
-El programa mostrará un menú con las siguientes opciones:
+El cliente muestra el siguiente menú:
 
-1. Registrar usuario.
-2. Iniciar sesión.
-3. Consultar tareas.
-4. Cerrar sesión.
-5. Salir.
+```text
+===== GESTIÓN DE TAREAS =====
+1. Registrar usuario
+2. Iniciar sesión
+3. Consultar tareas
+4. Cerrar sesión
+5. Salir
+```
+
+Desde este menú se pueden realizar las operaciones sin necesidad de escribir manualmente las solicitudes HTTP.
 
 ## Pruebas realizadas
 
-Se verificaron los siguientes escenarios:
+Para comprobar el funcionamiento del programa realicé las siguientes pruebas:
 
-| Prueba | Resultado esperado |
+| Prueba | Resultado |
 |---|---|
-| Registro de usuario nuevo | HTTP 201 |
-| Registro de usuario duplicado | HTTP 409 |
-| Login con credenciales correctas | HTTP 200 |
-| Login con contraseña incorrecta | HTTP 401 |
-| Acceso a `/tareas` sin autenticación | HTTP 401 |
-| Acceso a `/tareas` con autenticación | HTTP 200 y HTML |
-| Acceso después del cierre local de sesión | HTTP 401 |
+| Registro de un usuario nuevo | HTTP 201 |
+| Registro de un usuario existente | HTTP 409 |
+| Inicio de sesión correcto | HTTP 200 |
+| Inicio de sesión con contraseña incorrecta | HTTP 401 |
+| Acceso a tareas sin iniciar sesión | HTTP 401 |
+| Acceso a tareas con sesión iniciada | HTTP 200 |
+| Acceso a tareas después de cerrar sesión | HTTP 401 |
+
+Las capturas de estas pruebas se encuentran en la carpeta `capturas`.
 
 ## Seguridad
 
-Las contraseñas no se almacenan en texto plano, sino mediante hashes generados con Werkzeug.
+Para las contraseñas utilicé las funciones `generate_password_hash()` y `check_password_hash()` de Werkzeug.
 
-Las consultas SQL utilizan parámetros para evitar la concatenación directa de datos ingresados por el usuario.
+También utilicé consultas SQL parametrizadas y sesiones de Flask para controlar el acceso a `/tareas`.
 
-Flask utiliza cookies de sesión firmadas para conservar el estado de autenticación.
+El cierre de sesión del cliente elimina las cookies guardadas localmente. No invalida una cookie que se hubiera copiado anteriormente.
 
-El cierre de sesión implementado en el cliente elimina las cookies locales; no invalida una cookie previamente copiada.
-
-**Nota:** el proyecto está preparado para ejecutarse localmente con fines educativos. Para su publicación en un entorno de producción sería necesario configurar HTTPS, desactivar el modo de depuración y revisar la gestión de sesiones y secretos.
+La aplicación está desarrollada para ejecutarse de manera local y con fines educativos. No está configurada para utilizarse directamente en producción.
 
 ## Preguntas conceptuales
 
 ### ¿Por qué es importante utilizar hash para las contraseñas?
 
-Porque permite almacenar una representación de la contraseña en lugar de su valor original. De esta manera, si alguien obtiene acceso a la base de datos, no encuentra directamente las contraseñas en texto plano.
+Porque permite guardar una representación de la contraseña en lugar de almacenarla directamente. Esto ayuda a proteger los datos de los usuarios si alguien accede a la base de datos.
 
-Además, las funciones utilizadas permiten verificar las credenciales sin recuperar la contraseña original.
+Cuando el usuario inicia sesión, se verifica la contraseña ingresada comparándola con el hash almacenado, sin necesidad de recuperar la contraseña original.
 
 ### ¿Qué ventajas ofrece SQLite?
 
-SQLite es una base de datos liviana que no requiere instalar ni administrar un servidor independiente.
+SQLite es una base de datos sencilla que no necesita un servidor independiente. Toda la información se guarda en un archivo y se puede utilizar directamente desde Python.
 
-Permite almacenar información en un archivo local, se integra fácilmente con Python y resulta adecuada para aplicaciones pequeñas, prototipos y proyectos educativos.
+Para este trabajo práctico resultó útil porque permite almacenar los usuarios sin tener que instalar o configurar un sistema de base de datos más complejo.
 
-## Consideraciones finales
+## Conclusión
 
-El proyecto permite aplicar conceptos de arquitectura cliente-servidor, comunicación HTTP, API REST, autenticación, persistencia de datos y manejo de errores.
+Con este trabajo pude poner en práctica la comunicación entre un cliente y un servidor utilizando Python y solicitudes HTTP.
 
-La implementación demuestra cómo un cliente Python puede comunicarse con un servidor Flask y acceder a recursos protegidos mediante una sesión autenticada.
+También trabajé con una API REST, una base de datos SQLite y un sistema básico de autenticación para controlar el acceso a determinadas rutas.
+
+Las pruebas me permitieron comprobar tanto el funcionamiento correcto de las operaciones como las respuestas del servidor cuando se ingresan datos incorrectos o se intenta acceder sin iniciar sesión.
