@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PFO 2 - Gestión de Tareas</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #243b55;
+            color: white;
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        main {
+            max-width: 850px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #243b55;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .boton {
+            display: inline-block;
+            background-color: #243b55;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .boton:hover {
+            background-color: #365a80;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Sistema de Gestión de Tareas</h1>
+        <p>API REST con Flask y SQLite</p>
+        <p>Programación sobre Redes - PFO 2 - NATUCCI PAULA - Comision D</p>
+    </header>
+
+    <main>
+
+        <section>
+            <h2>Sobre el proyecto</h2>
+            <p>
+                Este proyecto consiste en una aplicación
+                cliente-servidor desarrollada en Python.
+                Permite registrar usuarios, iniciar sesión
+                y acceder a una página de bienvenida protegida.
+            </p>
+        </section>
+
+        <section>
+            <h2>Tecnologías utilizadas</h2>
+            <ul>
+                <li>Python</li>
+                <li>Flask</li>
+                <li>SQLite</li>
+                <li>Requests</li>
+                <li>Werkzeug</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Funcionalidades</h2>
+            <ul>
+                <li>Registro de usuarios con POST /registro.</li>
+                <li>Inicio de sesión mediante POST /login.</li>
+                <li>Contraseñas almacenadas mediante hash.</li>
+                <li>Persistencia de usuarios con SQLite.</li>
+                <li>Acceso protegido a GET /tareas.</li>
+                <li>Cliente de consola con menú interactivo.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Código fuente</h2>
+            <p>
+                El código del servidor, el cliente y las
+                instrucciones de ejecución están disponibles
+                en el repositorio de GitHub.
+            </p>
+
+            <a class="boton"
+               href="https://github.com/TheGipsyGirl/PFO2-Gestion-Tareas"
+               target="_blank"
+               rel="noopener noreferrer">
+                Ver repositorio en GitHub
+            </a>
+        </section>
+
+        <section>
+            <h2>Información académica</h2>
+            <p><strong>Alumna:</strong> Paula Valeria Natucci</p>
+            <p><strong>Comisión:</strong> D</p>
+            <p><strong>Materia:</strong> Programación sobre Redes</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>PFO 2 - Sistema de Gestión de Tareas</p>
+        <p>
+            Página informativa del proyecto.
+            La API Flask se ejecuta localmente.
+        </p>
+    </footer>
+
+</body>
+</html>
